@@ -38,6 +38,7 @@ EXPOSE 5760/tcp
 
 # Variables for simulator
 ENV INSTANCE 0
+ENV SYSID 1
 ENV LAT 42.3898
 ENV LON -71.1476
 ENV ALT 14
@@ -47,4 +48,4 @@ ENV SPEEDUP 1
 ENV VEHICLE ArduCopter
 
 # Finally the command
-ENTRYPOINT /ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -I${INSTANCE} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP}
+ENTRYPOINT /ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -I${INSTANCE} --sysid=${SYSID} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP}
