@@ -1,13 +1,12 @@
 FROM ubuntu:18.04
 
-# ARG COPTER_TAG=Copter-4.0.3
-ARG COPTER_TAG=sysid
+ARG COPTER_TAG=Copter-4.1.2
 
 # install git 
 RUN apt-get update && apt-get install -y git
 
 # Now grab ArduPilot from GitHub
-RUN git clone https://github.com/morzack/ardupilot.git ardupilot
+RUN git clone https://github.com/ArduPilot/ardupilot.git ardupilot
 WORKDIR ardupilot
 
 # Checkout the latest Copter...
