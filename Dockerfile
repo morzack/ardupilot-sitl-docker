@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 ARG COPTER_TAG=Copter-4.1.2
 
 # install git 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git sudo
 
 # Now grab ArduPilot from GitHub
 RUN git clone https://github.com/ArduPilot/ardupilot.git ardupilot
@@ -22,8 +22,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y sudo lsb-release tzdata
 
 # Need USER set so usermod does not fail...
+RUN useradd -U -m ardupilot && \
+    usermod -G users ardupilot
+
+ENV USER=ardupilot
+
+RUN echo "ardupilot ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ardupilot
+
+RUN chmod 0440 /etc/sudoers.d/ardupilot
+RUN chown -R ardupilot:ardupilot /ardupilot
+
+USER ardupilot
+
 # Install all prerequisites now
-RUN USER=nobody Tools/environment_install/install-prereqs-ubuntu.sh -y
+RUN Tools/environment_install/install-prereqs-ubuntu.sh -y
 
 # Continue build instructions from https://github.com/ArduPilot/ardupilot/blob/master/BUILD.md
 RUN ./waf distclean
